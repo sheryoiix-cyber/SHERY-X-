@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Shery ❤ Sana · Emotional Questions + Running NO + Urdu Song</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        cursor: none;
+    }
+    body {
+        font-family: 'Poppins', 'Noto Nastaliq Urdu', sans-serif;
+        background: #0a0a0f;
+        color: white;
+        overflow-x: hidden;
+        position: relative;
+    }
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: radial-gradient(circle at 20% 30%, rgba(255,0,110,0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(131,56,236,0.08) 0%, transparent 50%);
+        z-index: -2;
+    }
+    .hearts-bg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+    }
+    .falling-heart {
+        position: absolute;
+        color: #ff006e;
+        opacity: 0.25;
+        animation: fall linear infinite;
+        font-size: 12px;
+    }
+    @keyframes fall {
+        0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.25; }
+        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .page {
+        width: 100%;
+        min-height: 100vh;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        z-index: 5;
+    }
+    .page.active { display: flex; }
+
+    .journey-badge {
+        border: 1px solid #ff006e;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+        display: inline-block;
+        margin-bottom: 30px;
+        color: #ff006e;
+        font-family: 'Poppins', sans-serif;
+        background: rgba(0,0,0,0.3);
+    }
+    .pink-btn {
+        background: #ff006e;
+        color: white;
+        border: none;
+        padding: 16px 40px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 0 25px rgba(255,0,110,0.4);
+        transition: 0.3s;
+        font-family: 'Noto Nastaliq Urdu', sans-serif;
+    }
+    .pink-btn:hover { transform: scale(1.05); box-shadow: 0 0 35px rgba(255,0,110,0.6); }
+
+    /* PAGE 1 - WELCOME */
+    #page1 { padding: 60px 20px 40px; }
+    .welcome-text {
+        font-family: 'Noto Nastaliq Urdu', serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1.8;
+        text-align: center;
+    }
+    .welcome-text .fav, .welcome-text .place { color: #ff006e; }
+    .sub-text {
+        margin-top: 15px;
+        font-size: 1.1rem;
+        opacity: 0.7;
+        text-align: center;
+        font-family: 'Noto Nastaliq Urdu', sans-serif;
+    }
+    .sub-text .you { color: #ff006e; font-weight: 600; }
+    .names {
+        font-family: 'Noto Nastaliq Urdu', serif;
+        font-size: 2rem;
+        margin-top: 25px;
+        text-align: center;
+    }
+    .names .heart-icon { color: #ff006e; margin: 0 10px; }
+
+    .timeline {
+        position: relative;
+        max-width: 600px;
+        width: 100%;
+        margin: 60px auto 0;
+    }
+    .timeline::before {
+        content: '';
+        position: absolute;
+        right: 15px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #ff006e;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 40px;
+        padding-right: 50px;
+    }
+    .timeline-dot {
+        position: absolute;
+        right: 8px;
+        top: 5px;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #ff006e;
+        border-radius: 50%;
+        background: #0a0a0f;
+    }
+    .timeline-dot::after {
+        content: '♥';
+        color: #ff006e;
+        font-size: 8px;
+        position: absolute;
+        top: 2px;
+        right: 3px;
+    }
+    .timeline-card {
+        border: 1px solid rgba(255,0,110,0.2);
+        border-radius: 15px;
+        padding: 25px;
+        background: rgba(15,15,25,0.5);
+        backdrop-filter: blur(5px);
+    }
+    .timeline-card .label {
+        color: #ff006e;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        font-family: 'Poppins', sans-serif;
+    }
+    .timeline-card h3 {
+        font-family: 'Noto Nastaliq Urdu', serif;
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+    }
+    .timeline-card p {
+        font-size: 0.95rem;
+        line-height: 1.8;
+        opacity: 0.8;
+        font-family: 'Noto Nastaliq Urdu', sans-serif;
+    }
+
+    /* PROMISE PAGES */
+    .promise-page {
+        justify-content: center;
+        text-align: center;
+        background: radial-gradient(circle at center, rgba(255,0,110,0.05) 0%, transparent 70%);
+    }
+    .emoji-face { font-size: 4.5rem; margin-bottom: 25px; animation: floatPulse 2s infinite; }
+    @keyframes floatPulse { 0%,100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.1) translateY(-8px); } }
+    .promise-page h2 {
+        font-family: 'Noto Nastaliq Urdu', serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        line-height: 1.8;
+        max-width: 90%;
+        margin: 0 auto;
+    }
+    .promise-page h2 .pink { color: #ff006e; text-shadow: 0 0 8px rgba(255,0,110,0.5); }
+    .promise-page h2 .small-text {
+        font-size: 1.2rem;
+        display: block;
+        margin-top: 15px;
+        opacity: 0.8;
+    }
+    .btn-container {
+        margin-top: 50px;
+        display: flex;
+        gap: 15px;
+        position: relative;
+        width: 340px;
+        height: 80px;
+        justify-content: center;
+    }
+    .btn-yes {
+        background: linear-gradient(135deg, #00d9a3, #00b386);
+        color: white;
+        border: none;
+        padding: 14px 35px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        position: absolute;
+        right: 0;
+        font-family: 'Noto Nastaliq Urdu', sans-serif;
+        transition: 0.2s ease;
+        z-index: 10;
+        box-shadow: 0 0 20px rgba(0,217,163,0.5);
+    }
+    .btn-yes:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(0,217,163,0.8);
+    }
+    .btn-no {
+        background: linear-gradient(135deg, #ff4757, #c0392b);
+        color: white;
+        border: none;
+        padding: 14px 35px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        position: absolute;
+        left: 0;
+        font-family: 'Noto Nastaliq Urdu', sans-serif;
+        transition: 0.15s ease;
+        z-index: 10;
+    }
+    .attempt-counter {
+        margin-top: 35px;
+        font-size: 0.8rem;
+        opacity: 0.5;
+        font-family: monospace;
+        letter-spacing: 1px;
+    }
+    .magic-message {
+        margin-top: 20px;
+        font-size: 0.85rem;
+        color: #ffd966;
+        background: rgba(0,0,0,0.6);
+        padding: 8px 18px;
+        border-radius: 40px;
+        display: inline-block;
+        backdrop-filter: blur(4px);
+    }
+
+    /* PAGE 4 - I KNEW IT */
+    #page4 { justify-content: center; text-align: center; }
+    .heart-sparkle { font-size: 5rem; margin-bottom: 20px; filter: drop-shadow(0 0 20px #ff006e); animation: beat 1s infinite; }
+    @keyframes beat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+    #page4 h2 { font-family: 'Noto Nastaliq Urdu', serif; font-size: 2.3rem; color: #ff006e; margin-bottom: 15px; }
+    #page4 p { font-size: 1.1rem; opacity: 0.8; margin-bottom: 40px; }
+
+    /* PAGE 5 - KEY */
+    #page5 { justify-content: center; }
+    .key-card { width: 90%; max-width: 400px; text-align: center; }
+    .key-card p { font-size: 1rem; opacity: 0.7; margin-bottom: 30px; }
+    .key-input-box { position: relative; margin-bottom: 15px; }
+    .key-input-box input {
+        width: 100%;
+        padding: 18px 50px 18px 18px;
+        font-size: 1rem;
+        border: 1px solid #ff006e;
+        border-radius: 50px;
+        background: rgba(0,0,0,0.4);
+        color: white;
+        outline: none;
+        font-family: 'Poppins', sans-serif;
+    }
+    .key-input-box::before {
+        content: '🔑';
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2rem;
+    }
+    .error { color: #ffeb3b; margin-bottom: 20px; display: none; font-size: 0.9rem; }
+
+    /* PAGE 6 - FINAL HEART */
+    #page6 { justify-content: center; text-align: center; }
+    .home-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        padding: 10px 20px;
+        border-radius: 50px;
+        color: white;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-family: 'Noto Nastaliq Urdu', sans-serif;
+        z-index: 20;
+        backdrop-filter: blur(5px);
+    }
+    .final-heart {
+        font-size: 7rem;
+        filter: drop-shadow(0 0 30px #ff006e);
+        animation: heartBeat 1.5s infinite;
+        cursor: pointer;
+        margin: 20px 0;
+        transition: 0.2s;
+    }
+    .final-heart:hover { transform: scale(1.1); }
+    @keyframes heartBeat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+    /* PAGE 7 - GALLERY */
+    #page7 { padding: 80px 20px 100px; }
+    #page7 h2 { font-family: 'Noto Nastaliq Urdu', serif; font-size: 2rem; margin-bottom: 10px; text-align: center; }
+    .subtitle { text-align: center; opacity: 0.7; margin-bottom: 30px; }
+    .gallery { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 500px; }
+    .gallery-card {
+        border: 1px solid rgba(255,0,110,0.2);
+        border-radius: 15px;
+        padding: 25px;
+        background: rgba(15,15,25,0.5);
+        text-align: center;
+        backdrop-filter: blur(4px);
+    }
+    .gallery-card h3 { font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.8rem; margin-bottom: 5px; }
+    .gallery-card .pink { color: #ff006e; }
+    .gallery-card .small { font-size: 0.85rem; opacity: 0.6; letter-spacing: 1px; margin-top: 10px; font-family: 'Poppins', sans-serif; }
+    .gallery img, .gallery video { width: 100%; border-radius: 10px; margin-top: 15px; }
+    
+    /* MUSIC BAR */
+    .music-bar {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(12px);
+        padding: 10px 20px;
+        border-radius: 60px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        z-index: 100;
+        border: 1px solid #ff006e;
+        box-shadow: 0 0 20px rgba(255,0,110,0.3);
+        font-family: 'Poppins', sans-serif;
+    }
+    .music-bar button {
+        background: #ff006e;
+        border: none;
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+    }
+    .music-bar button:hover {
+        transform: scale(1.1);
+        background: #ff3388;
+    }
+    .music-bar .song-name {
+        font-size: 0.75rem;
+        color: #ffd966;
+        max-width: 120px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .volume-slider {
+        width: 60px;
+        cursor: pointer;
+        accent-color: #ff006e;
+    }
+
+    /* ADMIN */
+    #adminPage { justify-content: center; }
+    .admin-panel { display: none; border: 1px solid rgba(255,0,110,0.3); padding: 25px; border-radius: 15px; background: rgba(10,10,15,0.9); width: 90%; max-width: 400px; backdrop-filter: blur(8px); }
+    .admin-panel input, .admin-panel textarea { width: 100%; padding: 12px; font-size: 0.95rem; border: 1px solid rgba(255,0,110,0.4); border-radius: 10px; background: rgba(0,0,0,0.5); color: white; margin: 8px 0; outline: none; }
+    .media-item { background: rgba(255,255,255,0.08); padding: 10px; margin: 8px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+    .delete-btn { background: #ff006e; color: white; border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer; }
+    
+    /* SPIDER CANVAS */
+    #spiderCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        pointer-events: none;
+        z-index: 99999;
+    }
+</style>
+</head>
+<body>
+
+<div class="hearts-bg" id="heartsBg"></div>
+
+<!-- MUSIC BAR with Urdu Song -->
+<div class="music-bar" id="musicBar">
+    <button id="playPauseBtn">⏸</button>
+    <span class="song-name" id="songName">🎵 Tum Hi Ho</span>
+    <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
+    <span>🔊</span>
+</div>
+
+<!-- Audio Element for Urdu Song -->
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1: WELCOME + TIMELINE -->
+<div class="page active" id="page1">
+  <div class="journey-badge">✨ Journey of Love ✨ | ✨ محبت کا سفر ✨</div>
+  <div class="welcome-text">
+    Welcome to my <span class="fav">favorite</span><br> <span class="place">place</span><br>
+    میری <span class="fav">پسندیدہ</span><br> <span class="place">جگہ</span> میں خوش آمدید
+  </div>
+  <div class="sub-text">
+    Because everything is about <span class="you">you</span> | کیونکہ یہ سب کچھ <span class="you">تمہارے</span> بارے میں ہے
+  </div>
+  <div class="names">Shery <span class="heart-icon">♥</span> Sana | شیری <span class="heart-icon">♥</span> ثناء</div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="label">BEGINNING | شروعات</div>
+        <h3>Our first talk | ہماری پہلی بات</h3>
+        <p>The moment that changed everything... when our worlds collided beautifully.<br>وہ لمحہ جس نے سب کچھ بدل دیا... جب ہماری دنیائیں سب سے خوبصورت انداز میں ٹکرائیں۔</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="label">SPECIAL DAY | ایک خاص دن</div>
+        <h3>The day you smiled | جس دن تم مسکرائی</h3>
+        <p>Your smile lit up my whole universe. I knew right then — you're mine.<br>تمہاری مسکراہٹ نے میری پوری کائنات روشن کر دی۔ میں تب ہی جان گیا تھا — تم میری ہو۔</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="label">FOREVER BEGINS | ہمیشہ کی شروعات</div>
+        <h3>When I became sure | جب مجھے یقین ہو گیا</h3>
+        <p>Since then, every heartbeat is a love letter in your name.<br>تب سے ہر دھڑکن تمہارے نام ایک محبت بھرا خط ہے۔</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="pink-btn" onclick="goToPage2()">Continue our story → | ہماری کہانی جاری رکھیں →</button>
+</div>
+
+<!-- PAGE 2: FIRST EMOTIONAL QUESTION -->
+<div class="page promise-page" id="page2">
+  <div class="journey-badge">✨ Heart to Heart ✨ | ✨ دل کی بات ✨</div>
+  <div class="emoji-face">🥺💭</div>
+  <h2>
+    Main jaanta hoon main <span class="pink">perfect</span> nahi hoon...<br>
+    lekin kya tum meri <span class="pink">kamiyon</span> ko apni <span class="pink">khushiyon</span> se bharna chahti ho?<br>
+    <span class="small-text">💫 I know I'm not perfect... but will you fill my <span class="pink">flaws</span> with your <span class="pink">happiness</span>? 💫</span>
+  </h2>
+  <div class="btn-container">
+    <button class="btn-yes" id="yesBtnPage2">💖 YES | ہاں 💖</button>
+    <button class="btn-no" id="noBtnPage2">😭 NO | نہیں 😭</button>
+  </div>
+  <div class="attempt-counter" id="counterPage2">💔 attempts to say NO: 0</div>
+  <div class="magic-message" id="magicPage2"></div>
+</div>
+
+<!-- PAGE 3: SECOND EMOTIONAL QUESTION -->
+<div class="page promise-page" id="page3">
+  <div class="journey-badge">✨ Forever Question ✨ | ✨ ہمیشہ کا سوال ✨</div>
+  <div class="emoji-face">🥺❤️</div>
+  <h2>
+    Meri har <span class="pink">subah</span> tumse shuru hoti hai...<br>
+    kya tum meri har <span class="pink">shaam</span> ka <span class="pink">sukoon</span> banna chahti ho?<br>
+    <span class="small-text">✨ My every <span class="pink">morning</span> starts with you... will you be the <span class="pink">peace</span> of my every <span class="pink">evening</span>? ✨</span>
+  </h2>
+  <div class="btn-container">
+    <button class="btn-yes" id="yesBtnPage3">💖 YES | ہاں 💖</button>
+    <button class="btn-no" id="noBtnPage3">😭 NO | نہیں 😭</button>
+  </div>
+  <div class="attempt-counter" id="counterPage3">💔 attempts to say NO: 0</div>
+  <div class="magic-message" id="magicPage3"></div>
+</div>
+
+<!-- PAGE 4: I KNEW IT -->
+<div class="page" id="page4">
+  <div class="heart-sparkle">💖✨💖</div>
+  <h2>I KNEW IT! | مجھے پتہ تھا!</h2>
+  <p>You've made me the happiest human on earth.<br>تم نے مجھے دنیا کا سب سے خوش انسان بنا دیا۔</p>
+  <button class="pink-btn" onclick="goToPage5()">Unlock something special → | کوئی خاص چیز ان لاک کریں →</button>
+</div>
+
+<!-- PAGE 5: SECRET KEY -->
+<div class="page" id="page5">
+  <div class="key-card">
+    <p>Only you know the password to my heart...<br>صرف تم ہی میرے دل کا پاسورڈ جانتی ہو...</p>
+    <div class="key-input-box">
+      <input type="password" id="accessKey" placeholder="Secret code... خفیہ کوڈ لکھو">
+    </div>
+    <p class="error" id="errorMsg">⚠️ Wrong code! Try again 😊 | ⚠️ غلط کوڈ! دوبارہ کوشش کرو 😊</p>
+    <button class="pink-btn" onclick="checkKey()" style="width:100%;">🔓 UNLOCK | ان لاک کریں</button>
+  </div>
+</div>
+
+<!-- PAGE 6: FINAL HEART SURPRISE -->
+<div class="page" id="page6">
+  <button class="home-btn" onclick="goHome()">🏠 HOME | ہوم</button>
+  <div class="journey-badge">✨ Final Surprise ✨ | ✨ آخری سرپرائز ✨</div>
+  <h2 style="font-family:'Noto Nastaliq Urdu',serif; font-size:2.2rem; margin:20px 0;">Our special memories ❤️ | ہماری خاص یادیں ❤️</h2>
+  <p style="opacity:0.7; margin-bottom:30px;">Click on the heart to see surprise...<br>سرپرائز دیکھنے کے لیے دل پر کلک کرو...</p>
+  <div class="final-heart" onclick="showGallery()">❤️</div>
+</div>
+
+<!-- PAGE 7: GALLERY -->
+<div class="page" id="page7">
+  <button class="home-btn" onclick="goHome()">🏠 HOME | ہوم</button>
+  <div class="journey-badge">✨ Our beautiful memories ✨ | ✨ ہماری خوبصورت یادیں ✨</div>
+  <h2>Every picture tells our story... | ہر تصویر ہماری کہانی سناتی ہے...</h2>
+  <p class="subtitle">Forever and ever | ہمیشہ اور ہمیشہ کے لیے</p>
+  <div class="gallery" id="gallery">
+    <div class="gallery-card">
+      <h3>Shery <span class="pink">♥</span> Sana | شیری <span class="pink">♥</span> ثناء</h3>
+      <div class="small">Forever & always | ہمیشہ اور ہمیشہ</div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="page" id="adminPage">
+  <div class="admin-panel" id="adminPanel">
+    <h3 style="margin-bottom:20px;">ADMIN PANEL 🔧 | ایڈمن پینل 🔧</h3>
+    <input type="password" id="adminPass" placeholder="Admin password | ایڈمن پاسورڈ">
+    <button class="pink-btn" onclick="loginAdmin()" style="width:100%; margin-top:10px;">LOGIN | لاگ ان</button>
+    <div id="adminControls" style="display:none; margin-top:20px;">
+      <h4>Upload memory | یاد اپلوڈ کریں</h4>
+      <input type="file" id="fileInput" accept="image/*,video/*">
+      <button class="pink-btn" onclick="addMedia()" style="width:100%;">Add to gallery | گیلری میں شامل کریں</button>
+      <h4 style="margin-top:25px;">Uploaded media | اپلوڈ شدہ میڈیا</h4>
+      <div id="mediaList"></div>
+      <button class="pink-btn" style="width:100%; margin-top:15px;" onclick="clearAll()">Delete all | سب ڈیلیٹ کریں</button>
+    </div>
+  </div>
+</div>
+
+<canvas id="spiderCanvas"></canvas>
+
+<script>
+    // ---------- URDU SONG PLAYER ----------
+    // Using a beautiful Urdu romantic song (Tum Hi Ho - style instrumental but with feel)
+    // YouTube audio fallback - using a reliable romantic Urdu song from audio library
+    const songUrls = [
+        "https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a8c7c8.mp3",  // Romantic instrumental
+        "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf6c7.mp3"   // Soft love music
+    ];
+    let currentSongIndex = 0;
+    const audio = document.getElementById('bgMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const songNameSpan = document.getElementById('songName');
+    
+    // Set a beautiful Urdu romantic song from free source (Na jaane kyun - vibe)
+    // Using a reliable romantic track from Pixabay that sounds like Urdu love song
+    audio.src = "https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a8c7c8.mp3";
+    songNameSpan.innerHTML = "🎵 Tumhi Ho - Romantic Urdu Song 🎵";
+    
+    audio.volume = 0.5;
+    volumeSlider.value = 0.5;
+    
+    // Auto-play with user interaction (browsers require user interaction first)
+    let musicStarted = false;
+    
+    function startMusic() {
+        if(!musicStarted) {
+            audio.play().catch(e => console.log("Auto-play prevented, click anywhere to play"));
+            musicStarted = true;
+            playPauseBtn.innerHTML = "⏸";
+        }
+    }
+    
+    // Try to start music on any user interaction
+    document.body.addEventListener('click', startMusic);
+    document.body.addEventListener('touchstart', startMusic);
+    
+    playPauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if(audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = "⏸";
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = "▶";
+        }
+    });
+    
+    volumeSlider.addEventListener('input', (e) => {
+        audio.volume = e.target.value;
+    });
+    
+    audio.addEventListener('ended', () => {
+        // loop
+        audio.currentTime = 0;
+        audio.play();
+    });
+    
+    // ---------- SPIDER CURSOR ANIMATION ----------
+    (function() {
+        const canvas = document.getElementById('spiderCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = window.innerWidth, height = window.innerHeight;
+        
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        let mouseX = width/2, mouseY = height/2;
+        window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+        window.addEventListener('touchmove', (e) => { if(e.touches.length) { mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY; } });
+        window.addEventListener('touchstart', (e) => { if(e.touches.length) { mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY; } });
+        
+        let spider = {
+            x: width/2, y: height/2,
+            legPairs: [
+                { side: 'left', baseAngle: -1.0, offset: 0, length: 28 },
+                { side: 'left', baseAngle: -0.45, offset: 0, length: 32 },
+                { side: 'left', baseAngle: 0.05, offset: 0, length: 30 },
+                { side: 'right', baseAngle: 1.0, offset: 0, length: 28 },
+                { side: 'right', baseAngle: 0.45, offset: 0, length: 32 },
+                { side: 'right', baseAngle: -0.05, offset: 0, length: 30 }
+            ],
+            bodyAngle: 0, stepCycle: 0, speed: 8.5
+        };
+        
+        function updateSpider() {
+            let dx = mouseX - spider.x, dy = mouseY - spider.y;
+            let dist = Math.hypot(dx, dy);
+            if(dist > 1) {
+                let move = Math.min(spider.speed, dist * 0.25 + 1);
+                let angleTo = Math.atan2(dy, dx);
+                spider.x += Math.cos(angleTo) * move;
+                spider.y += Math.sin(angleTo) * move;
+                spider.bodyAngle = angleTo;
+            }
+            spider.x = Math.min(width - 15, Math.max(15, spider.x));
+            spider.y = Math.min(height - 15, Math.max(15, spider.y));
+            
+            let moveIntensity = Math.min(1.2, Math.hypot(dx, dy) * 0.03);
+            spider.stepCycle = (spider.stepCycle + 0.28 + moveIntensity * 0.2) % (Math.PI * 2);
+            for(let i=0; i<spider.legPairs.length; i++) {
+                spider.legPairs[i].offset = Math.sin(spider.stepCycle + i * 0.75) * 0.85;
+            }
+        }
+        
+        function drawSpider() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(spider.x, spider.y);
+            ctx.rotate(spider.bodyAngle);
+            ctx.beginPath();
+            ctx.ellipse(-5, 0, 18, 15, 0, 0, Math.PI*2);
+            ctx.fillStyle = "#1f1912";
+            ctx.fill();
+            ctx.strokeStyle = "#5e4a32";
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(7, 0, 15, 13, 0, 0, Math.PI*2);
+            ctx.fillStyle = "#2c221b";
+            ctx.fill();
+            ctx.stroke();
+            for(let leg of spider.legPairs) {
+                let sideSign = leg.side === 'left' ? -1 : 1;
+                let swing = leg.offset * 0.9;
+                let angleLeg = leg.baseAngle + swing * 0.8;
+                if(leg.side === 'left') angleLeg = -Math.abs(angleLeg);
+                else angleLeg = Math.abs(angleLeg);
+                let x1 = 5 + Math.cos(angleLeg) * (leg.length * 0.6) * sideSign;
+                let y1 = Math.sin(angleLeg) * (leg.length * 0.6);
+                let knee = angleLeg + (leg.side === 'left' ? -0.85 : 0.85) * (0.7 + swing*0.4);
+                let x2 = x1 + Math.cos(knee) * (leg.length * 0.55) * sideSign;
+                let y2 = y1 + Math.sin(knee) * (leg.length * 0.55);
+                ctx.beginPath();
+                ctx.moveTo(5, 0);
+                ctx.lineTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.strokeStyle = "#443728";
+                ctx.lineWidth = 2.6;
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(x2, y2, 1.5, 0, Math.PI*2);
+                ctx.fillStyle = "#201a12";
+                ctx.fill();
+            }
+            ctx.fillStyle = "#ffd966";
+            ctx.beginPath();
+            ctx.arc(12, -4, 2.2, 0, Math.PI*2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(12, 4, 2.2, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = "#b33e1f";
+            ctx.beginPath();
+            ctx.arc(13, -4.2, 1.1, 0, Math.PI*2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(13, 4.2, 1.1, 0, Math.PI*2);
+            ctx.fill();
+            ctx.restore();
+            ctx.beginPath();
+            ctx.moveTo(spider.x, spider.y);
+            ctx.lineTo(spider.x - 8, spider.y + 5);
+            ctx.strokeStyle = "rgba(200,170,100,0.5)";
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+        }
+        
+        function animate() {
+            updateSpider();
+            drawSpider();
+            requestAnimationFrame(animate);
+        }
+        animate();
+    })();
+
+    // ---------- MAIN WEBSITE LOGIC ----------
+    const VIEWER_KEY = "SHERYX143";
+    const ADMIN_PASS = "sheryadmin";
+
+    function createHearts() {
+        const bg = document.getElementById('heartsBg');
+        for(let i=0;i<35;i++) {
+            const heart = document.createElement('div');
+            heart.className = 'falling-heart';
+            heart.innerHTML = '♥';
+            heart.style.left = Math.random()*100 + '%';
+            heart.style.animationDuration = Math.random()*5+5 + 's';
+            heart.style.animationDelay = Math.random()*5 + 's';
+            bg.appendChild(heart);
+        }
+    }
+    createHearts();
+
+    if(window.location.href.includes("?admin")) {
+        document.getElementById("page1").classList.remove("active");
+        document.getElementById("adminPage").classList.add("active");
+        document.getElementById("adminPanel").style.display = "block";
+    }
+
+    function goToPage2() {
+        document.getElementById('page1').classList.remove('active');
+        document.getElementById('page2').classList.add('active');
+    }
+
+    function goToPage3() {
+        document.getElementById('page2').classList.remove('active');
+        document.getElementById('page3').classList.add('active');
+    }
+
+    function goToPage4() {
+        document.getElementById('page3').classList.remove('active');
+        document.getElementById('page4').classList.add('active');
+    }
+
+    function goToPage5() {
+        document.getElementById('page4').classList.remove('active');
+        document.getElementById('page5').classList.add('active');
+    }
+
+    function showGallery() {
+        document.getElementById('page6').classList.remove('active');
+        document.getElementById('page7').classList.add('active');
+        loadGallery();
+    }
+
+    function goHome() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page1').classList.add('active');
+    }
+
+    function checkKey() {
+        const key = document.getElementById('accessKey').value;
+        const errorMsg = document.getElementById('errorMsg');
+        if (key === VIEWER_KEY) {
+            document.getElementById('page5').classList.remove('active');
+            document.getElementById('page6').classList.add('active');
+        } else {
+            errorMsg.style.display = 'block';
+            setTimeout(() => { errorMsg.style.display = 'none'; }, 2500);
+        }
+    }
+    document.getElementById('accessKey')?.addEventListener('keypress', e => { if (e.key === 'Enter') checkKey(); });
+
+    // Running NO button function
+    function makeNoButtonRun(noBtnId, yesBtnId, nextPageFunction, counterId, magicId) {
+        const noBtn = document.getElementById(noBtnId);
+        const yesBtn = document.getElementById(yesBtnId);
+        let attemptCount = 0;
+        const counterEl = document.getElementById(counterId);
+        const magicEl = document.getElementById(magicId);
+        
+        function runAway() {
+            if(!noBtn) return;
+            attemptCount++;
+            if(counterEl) counterEl.innerHTML = `💔 attempts to say NO: ${attemptCount} 💔`;
+            
+            if(attemptCount >= 5 && magicEl) {
+                magicEl.innerHTML = "😈 Tum nahi bach sakte... YES click kar do! 😈 | You can't escape... just click YES! 😈";
+                magicEl.style.opacity = "1";
+            }
+            if(attemptCount >= 8 && magicEl) {
+                magicEl.innerHTML = "⚠️ LAST WARNING! NO button ab aur nahi bhagega... YES press karo! ⚠️";
+            }
+            
+            const maxX = window.innerWidth - noBtn.offsetWidth - 30;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 80;
+            const randomX = Math.max(15, Math.min(maxX, Math.random() * (window.innerWidth - 120)));
+            const randomY = Math.max(15, Math.min(maxY, Math.random() * (window.innerHeight - 150)));
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transition = '0.15s cubic-bezier(0.3, 1.5, 0.5, 1)';
+            noBtn.style.transform = 'rotate(' + (Math.random() * 12 - 6) + 'deg)';
+            setTimeout(() => { if(noBtn) noBtn.style.transform = 'rotate(0deg)'; }, 200);
+        }
+        
+        if(noBtn) {
+            noBtn.addEventListener('mouseenter', runAway);
+            noBtn.addEventListener('touchstart', runAway);
+            noBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                runAway();
+            });
+        }
+        
+        if(yesBtn) {
+            yesBtn.addEventListener('click', () => {
+                if(nextPageFunction) nextPageFunction();
+            });
+        }
+    }
+
+    makeNoButtonRun('noBtnPage2', 'yesBtnPage2', goToPage3, 'counterPage2', 'magicPage2');
+    makeNoButtonRun('noBtnPage3', 'yesBtnPage3', goToPage4, 'counterPage3', 'magicPage3');
+
+    function loadGallery() {
+        const gallery = document.getElementById('gallery');
+        const media = JSON.parse(localStorage.getItem("sheryx_media") || "[]");
+        let html = `<div class="gallery-card">
+            <h3>Shery <span class="pink">♥</span> Sana | شیری <span class="pink">♥</span> ثناء</h3>
+            <div class="small">Forever and always | ہمیشہ اور ہمیشہ</div>
+        </div>`;
+        media.forEach(item => {
+            if(item.type.startsWith("image")) {
+                html += `<div class="gallery-card"><img src="${item.data}" loading="lazy"></div>`;
+            } else if(item.type.startsWith("video")) {
+                html += `<div class="gallery-card"><video src="${item.data}" controls></video></div>`;
+            }
+        });
+        gallery.innerHTML = html;
+    }
+
+    function loginAdmin() {
+        if(document.getElementById("adminPass").value === ADMIN_PASS) {
+            document.getElementById("adminControls").style.display = "block";
+            showMediaList();
+        } else { alert("Wrong password | غلط پاسورڈ بھائی"); }
+    }
+
+    function addMedia() {
+        const file = document.getElementById("fileInput").files[0];
+        if(!file) return alert("Select a file first | پہلے فائل سلیکٹ کرو");
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const media = JSON.parse(localStorage.getItem("sheryx_media") || "[]");
+            media.push({type: file.type, name: file.name, data: e.target.result});
+            localStorage.setItem("sheryx_media", JSON.stringify(media));
+            showMediaList();
+            alert("Added to gallery! | ہو گیا! گیلری میں شامل ہو گیا");
+            document.getElementById("fileInput").value = "";
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function showMediaList() {
+        const media = JSON.parse(localStorage.getItem("sheryx_media") || "[]");
+        let html = "";
+        media.forEach((item, i) => {
+            html += `<div class="media-item">${item.name || item.type}<button class="delete-btn" onclick="deleteMedia(${i})">DELETE | ڈیلیٹ</button></div>`;
+        });
+        document.getElementById("mediaList").innerHTML = html || "<p>No media | کوئی میڈیا نہیں</p>";
+    }
+
+    function deleteMedia(index) {
+        const media = JSON.parse(localStorage.getItem("sheryx_media") || "[]");
+        media.splice(index, 1);
+        localStorage.setItem("sheryx_media", JSON.stringify(media));
+        showMediaList();
+    }
+
+    function clearAll() {
+        if(confirm("Delete everything? | سب ڈیلیٹ کرنا ہے؟")) {
+            localStorage.removeItem("sheryx_media");
+            showMediaList();
+        }
+    }
+
+    window.goToPage2 = goToPage2;
+    window.goToPage4 = goToPage4;
+    window.goToPage5 = goToPage5;
+    window.checkKey = checkKey;
+    window.showGallery = showGallery;
+    window.goHome = goHome;
+    window.loginAdmin = loginAdmin;
+    window.addMedia = addMedia;
+    window.deleteMedia = deleteMedia;
+    window.clearAll = clearAll;
+</script>
+</body>
+</html>
